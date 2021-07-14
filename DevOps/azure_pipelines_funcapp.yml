@@ -1,0 +1,72 @@
+resources:
+  repositories:
+    - repository: templates
+      type: git
+      name: Devops
+
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - VehicleRegistrationAPI/*
+      
+pool:
+  name: Azure Pipeline
+variables:
+  - name: projectName
+    value: VehicleRegistrationAPI
+  - name: sonarCloudProjectReference
+    value: VehicleRegistrationAPI
+  - name: sonarCloudProjectInclusions
+    value: >-
+      **/VehicleRegistrationAPI/**
+  - name: testProjects
+    value: |
+      **/VehicleRegistrationAPITest.csproj
+  - name: projects
+    value: '**/$(projectName).csproj'
+  - name: publishOutput
+    value: $(Build.ArtifactStagingDirectory)\VehicleRegistrationAPI
+
+steps:
+
+# Prepare sonar cloud
+  - template: Build Templates/sonar-cloud-prepare.yml@templates
+    parameters:
+      sonarCloudProjectKey: $(sonarCloudProjectReference)
+      sonarCloudProjectName: $(sonarCloudProjectReference)
+      sonarCloudInclusions: $(sonarCloudProjectInclusions)
+      runOnlyOnMaster: true
+
+ # Restore and build project
+  - template: Build Templates/dotnet-restore-build.yml@templates
+    parameters:
+      buildArguments: $(defaultBuildArguments)
+      buildProjects: $(solutionPath)
+
+# Run tests
+  - template: Build Templates/dotnet-test.yml@templates
+    parameters:
+      testArguments: $(defaultTestArguments)
+      testProjects: $(testProjects)
+      publishTestResults: false
+
+# Convert test coverage format and run sonar cloud analysis 
+  - template: Build Templates/test-coverage-and-sonar-cloud-analysis.yml@templates
+    parameters:
+      runOnlyOnMaster: true
+
+# Publish package
+  - template: Build Templates/dotnet-publish.yml@templates
+    parameters:
+      publishArguments: $(defaultPublishArguments)
+      publishProjects: $(projects)
+      runOnlyOnMaster: false
+
+ # Publish build artifacts to pipeline
+  - template: Build Templates/publish-build-artifacts.yml@templates
+    parameters:
+      pathtoPublish: $(publishOutput)
+      runOnlyOnMaster: false
