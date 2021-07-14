@@ -1,6 +1,6 @@
 # VehicleRegistration
 It is azure mock service for vehicle registration 
 
-Please follow vehicle Registration API deocument for more details.
+Please follow Vehicle Registration API document for more details.
 
 And for DevOps deployment please follow Vehicle Registration API deployment.
