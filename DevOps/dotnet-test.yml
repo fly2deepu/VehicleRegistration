@@ -1,0 +1,14 @@
+parameters:
+  testArguments: ''
+  testProjects: ''
+  publishTestResults: true
+
+steps:
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet test'
+  inputs:
+    command: 'test'    
+    arguments: ${{ parameters.testArguments }}
+    projects: ${{ parameters.testProjects }}
+    publishTestResults: ${{ parameters.publishTestResults }}

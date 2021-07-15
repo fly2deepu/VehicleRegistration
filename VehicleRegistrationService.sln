@@ -8,9 +8,13 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DevOps", "DevOps", "{562E618B-4C2F-415D-A52B-5544925507D2}"
 	ProjectSection(SolutionItems) = preProject
 		DevOps\azure_pipelines_funcapp.yml = DevOps\azure_pipelines_funcapp.yml
+		DevOps\dotnet-publish.yml = DevOps\dotnet-publish.yml
+		DevOps\dotnet-restore-build.yml = DevOps\dotnet-restore-build.yml
+		DevOps\dotnet-test.yml = DevOps\dotnet-test.yml
+		DevOps\publish-build-artifacts.yml = DevOps\publish-build-artifacts.yml
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VehicleRegistrationAPITest", "VehicleRegistrationAPITest\VehicleRegistrationAPITest.csproj", "{C99DA3F6-251A-45A4-BA90-3D5BC5CB62FE}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "VehicleRegistrationAPITest", "VehicleRegistrationAPITest\VehicleRegistrationAPITest.csproj", "{C99DA3F6-251A-45A4-BA90-3D5BC5CB62FE}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

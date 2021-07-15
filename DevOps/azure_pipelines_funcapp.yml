@@ -17,11 +17,6 @@ pool:
 variables:
   - name: projectName
     value: VehicleRegistrationAPI
-  - name: sonarCloudProjectReference
-    value: VehicleRegistrationAPI
-  - name: sonarCloudProjectInclusions
-    value: >-
-      **/VehicleRegistrationAPI/**
   - name: testProjects
     value: |
       **/VehicleRegistrationAPITest.csproj
@@ -31,14 +26,6 @@ variables:
     value: $(Build.ArtifactStagingDirectory)\VehicleRegistrationAPI
 
 steps:
-
-# Prepare sonar cloud
-  - template: Build Templates/sonar-cloud-prepare.yml@templates
-    parameters:
-      sonarCloudProjectKey: $(sonarCloudProjectReference)
-      sonarCloudProjectName: $(sonarCloudProjectReference)
-      sonarCloudInclusions: $(sonarCloudProjectInclusions)
-      runOnlyOnMaster: true
 
  # Restore and build project
   - template: Build Templates/dotnet-restore-build.yml@templates
@@ -52,11 +39,6 @@ steps:
       testArguments: $(defaultTestArguments)
       testProjects: $(testProjects)
       publishTestResults: false
-
-# Convert test coverage format and run sonar cloud analysis 
-  - template: Build Templates/test-coverage-and-sonar-cloud-analysis.yml@templates
-    parameters:
-      runOnlyOnMaster: true
 
 # Publish package
   - template: Build Templates/dotnet-publish.yml@templates

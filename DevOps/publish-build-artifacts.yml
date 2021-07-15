@@ -1,0 +1,13 @@
+parameters:
+  pathtoPublish: ''
+  artifactName: 'drop'
+  runOnlyOnMaster: false
+
+steps:
+
+- task: PublishBuildArtifacts@1
+  displayName: 'publish build artifacts to pipeline'
+  condition: and(succeeded(), or(eq('${{ parameters.runOnlyOnMaster }}', false), and(eq('${{ parameters.runOnlyOnMaster }}', true), eq(variables['Build.SourceBranch'], 'refs/heads/master'))))
+  inputs:
+    PathtoPublish: ${{ parameters.pathtoPublish }}
+    ArtifactName: ${{ parameters.artifactName }}

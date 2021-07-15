@@ -1,0 +1,18 @@
+parameters:
+  publishArguments: ''
+  publishProjects: ''
+  zipAfterPublish: true
+  runOnlyOnMaster: false
+
+steps:
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet publish'
+  condition: and(succeeded(), or(eq('${{ parameters.runOnlyOnMaster }}', false), and(eq('${{ parameters.runOnlyOnMaster }}', true), eq(variables['Build.SourceBranch'], 'refs/heads/master'))))
+  inputs:
+    command: 'publish'
+    publishWebProjects: false
+    arguments: ${{ parameters.publishArguments }}
+    projects: ${{ parameters.publishProjects }}
+    zipAfterPublish: ${{ parameters.zipAfterPublish }}
+    modifyOutputPath: false

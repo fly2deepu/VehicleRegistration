@@ -1,0 +1,20 @@
+parameters:
+  nugetFeed: ''
+  buildArguments: ''
+  buildProjects: ''
+
+steps:
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet restore'
+  inputs:
+    command: 'restore'
+    feedsToUse: 'select'
+    vstsFeed: ${{ parameters.nugetFeed }}
+
+- task: DotNetCoreCLI@2
+  displayName: 'dotnet build'
+  inputs:
+    command: 'build'
+    arguments: ${{ parameters.buildArguments }}
+    projects: ${{ parameters.buildProjects }}
